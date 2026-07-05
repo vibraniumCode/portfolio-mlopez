@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import imgBarberia from "@/assets/proyecto-barberia.png";
+import imgVibranium from "@/assets/proyecto-vibranium.png";
+import imgAmelie from "@/assets/proyecto-amelie.png";
+
 const proyectos = [
   {
     id: 1,
@@ -6,7 +10,7 @@ const proyectos = [
     nombre: "Iron Blade — Barbería App",
     descripcion:
       "Sistema completo de gestión para barberías. Desde la reserva de turnos hasta el control total del negocio, con dashboards en tiempo real y múltiples roles de usuario.",
-    imagen: "/src/assets/proyecto-barberia.png",
+    imagen: imgBarberia,
     features: [
       "Reserva de turnos online",
       "Dashboard con gráficos de ingresos",
@@ -26,7 +30,7 @@ const proyectos = [
     nombre: "VibraniumCode — Estudio de Software",
     descripcion:
       "Landing page profesional de mi estudio de desarrollo. Presenta servicios, proyectos, stack tecnológico y formulario de contacto. Diseño oscuro y moderno orientado a conversión.",
-    imagen: "/src/assets/proyecto-vibranium.png",
+    imagen: imgVibranium,
     features: [
       "Diseño dark mode profesional",
       "Secciones de servicios y proyectos",
@@ -46,7 +50,7 @@ const proyectos = [
     nombre: "By Amelie — Tienda Online",
     descripcion:
       "E-commerce completo de productos para el hogar. Catálogo con más de 200 productos, carrito, wishlist, panel admin con dashboard de ventas en tiempo real, gestión de pedidos y notificaciones para email.",
-    imagen: "/src/assets/proyecto-amelie.png",
+    imagen: imgAmelie,
     features: [
       "Catálogo con filtros por categoría",
       "Carrito de compras",
