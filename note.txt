@@ -1,0 +1,4 @@
+ref para variables reactivas
+@click para manejar eventos
+v-show para mostrar/ocultar elementos
+Responsive con Tailwind (hidden md:flex, md:hidden)

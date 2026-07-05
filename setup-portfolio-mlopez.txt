@@ -1,0 +1,255 @@
+===============================================================
+  DOCUMENTACIÓN DE SETUP — portfolio-mlopez
+  Stack: Vue 3 + TypeScript + Tailwind CSS v4 + Vite 8 + pnpm
+===============================================================
+
+FECHA: Junio 2025
+AUTOR: MLopez / VibraniumCode
+
+
+---------------------------------------------------------------
+  POR QUÉ USAMOS PNPM EN VEZ DE NPM
+---------------------------------------------------------------
+
+En 2025-2026 hubo varios ataques de supply chain al ecosistema
+npm (campañas Shai-Hulud, axios compromise, etc.) donde paquetes
+maliciosos ejecutaban código al instalarse para robar tokens,
+credenciales de cloud y CI/CD.
+
+pnpm protege del lado del consumidor:
+- Bloquea lifecycle scripts sospechosos por defecto (postinstall, etc.)
+- Verifica el lockfile contra políticas de seguridad en cada install
+- Usa el mismo registro que npm, pero con controles del lado cliente
+
+npm solo tiene protecciones del lado del publicador (el registro),
+no del lado del consumidor (tu máquina).
+
+
+---------------------------------------------------------------
+  PASO 1 — INSTALAR PNPM GLOBALMENTE
+---------------------------------------------------------------
+
+Problema: npm install -g pnpm tiraba error EPERM en Windows con nvm.
+Solución: abrir terminal como Administrador y volver a correr.
+
+  npm install -g pnpm
+
+Verificar instalación:
+  pnpm -v   → debe mostrar versión (ej: 11.9.0)
+
+NOTA: cada vez que cambiás de versión de Node con nvm,
+pnpm "desaparece" porque los paquetes globales son por versión.
+Solución: reinstalar pnpm global en la nueva versión activa.
+
+
+---------------------------------------------------------------
+  PASO 2 — ACTUALIZAR NODE CON NVM-WINDOWS
+---------------------------------------------------------------
+
+El warning al crear el proyecto decía:
+  [WARN] Unsupported engine: wanted {"node":"^22.18.0" || ">=24.12.0"}
+  (current: {"node":"v22.14.0"})
+
+Comandos para actualizar:
+
+  nvm list available        → ver versiones disponibles
+  nvm install 22.18.0       → instalar versión nueva
+  nvm use 22.18.0           → activar esa versión
+  node -v                   → confirmar que cambió
+
+IMPORTANTE: después de cambiar de versión de Node,
+reinstalar pnpm global y volver a correr pnpm install
+dentro del proyecto.
+
+¿Cuándo actualizar Node en el futuro?
+  - Cuando una herramienta te tire un warning de versión mínima
+  - Cuando tu versión llegue a "End of Life" (sin soporte de seguridad)
+  - Ver calendario en: nodejs.org/en/about/previous-releases
+  - Quedarse siempre en la versión LTS más reciente ("Recommended For Most Users")
+
+
+---------------------------------------------------------------
+  PASO 3 — CREAR EL PROYECTO VUE + TYPESCRIPT
+---------------------------------------------------------------
+
+Comando:
+  pnpm create vue@latest
+
+Respuestas al instalador:
+  Project name:               portfolio-mlopez
+  TypeScript?                 Yes
+  JSX support?                No
+  Vue Router?                 No  (portafolio de una sola página)
+  Pinia?                      No  (no hay estado complejo)
+  Vitest?                     No
+  ESLint / Prettier?          a gusto personal
+  Experimental features?      ninguna (no marcar nada)
+  Skip example code?          Yes (empezar con proyecto en blanco)
+
+Entrar a la carpeta e instalar dependencias:
+  cd portfolio-mlopez
+  pnpm install
+
+
+---------------------------------------------------------------
+  PASO 4 — INSTALAR TAILWIND CSS v4
+---------------------------------------------------------------
+
+  pnpm add tailwindcss @tailwindcss/vite
+
+Paquetes:
+  tailwindcss        → motor que genera las clases utilitarias
+  @tailwindcss/vite  → plugin que conecta Tailwind con Vite
+
+NOTA Tailwind v4: ya no se necesita instalar postcss ni
+autoprefixer por separado. El plugin de Vite los maneja
+internamente. Tampoco hay archivo tailwind.config.js obligatorio.
+
+
+---------------------------------------------------------------
+  PASO 5 — CONECTAR TAILWIND CON VITE
+---------------------------------------------------------------
+
+Archivo: vite.config.ts
+Agregar el import y el plugin (sin tocar lo que ya estaba):
+
+  import { fileURLToPath, URL } from 'node:url'
+  import { defineConfig } from 'vite'
+  import vue from '@vitejs/plugin-vue'
+  import vueDevTools from 'vite-plugin-vue-devtools'
+  import tailwindcss from '@tailwindcss/vite'          ← NUEVO
+
+  export default defineConfig({
+    plugins: [
+      vue(),
+      vueDevTools(),
+      tailwindcss(),                                    ← NUEVO
+    ],
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    },
+  })
+
+El alias '@' ya venía configurado por create-vue.
+Significa que '@/components/X' apunta a 'src/components/X'.
+
+
+---------------------------------------------------------------
+  PASO 6 — ACTIVAR TAILWIND EN EL CSS GLOBAL
+---------------------------------------------------------------
+
+Archivo: src/style.css
+Reemplazar TODO el contenido con:
+
+  @import "tailwindcss";
+
+NOTA Tailwind v4: ya no se usa el bloque de 3 directivas de v3:
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+Una sola línea @import reemplaza todo eso.
+
+
+---------------------------------------------------------------
+  PASO 7 — VERIFICAR QUE style.css SE IMPORTA EN MAIN.TS
+---------------------------------------------------------------
+
+Archivo: src/main.ts
+Forma CORRECTA de importar el CSS global:
+
+  import { createApp } from 'vue'
+  import App from './App.vue'
+  import './style.css'          ← sin "from", sin variable
+
+  createApp(App).mount('#app')
+
+Error común:
+  import style from './style.css'   ← INCORRECTO
+
+Por qué importa la diferencia:
+  Con "from" intentás importar el CSS como módulo JS con valor
+  exportado — Vite no lo procesa bien así y Tailwind no aplica.
+  Sin "from" le decís a Vite "cargá este archivo como efecto
+  secundario global", que es lo que necesitamos.
+
+
+---------------------------------------------------------------
+  PASO 8 — VERIFICAR QUE TODO FUNCIONA
+---------------------------------------------------------------
+
+En src/App.vue poner temporalmente:
+
+  <template>
+    <div class="bg-lime-400 min-h-screen flex items-center justify-center">
+      <h1 class="text-4xl font-bold text-black">
+        Tailwind funciona ✅
+      </h1>
+    </div>
+  </template>
+
+Correr el servidor de desarrollo:
+  pnpm dev
+
+Abrir en el navegador: http://localhost:5173
+Si ves fondo verde lima con el texto centrado → todo OK.
+
+
+---------------------------------------------------------------
+  ESTRUCTURA DE ARCHIVOS RELEVANTES
+---------------------------------------------------------------
+
+portfolio-mlopez/
+├── src/
+│   ├── components/       ← acá van los componentes (TheNavbar.vue, etc.)
+│   ├── App.vue           ← componente raíz, punto de entrada de la UI
+│   ├── main.ts           ← punto de entrada de la app, monta Vue en el DOM
+│   └── style.css         ← CSS global, solo tiene @import "tailwindcss"
+├── vite.config.ts        ← configuración de Vite + plugins
+├── tsconfig.json         ← orquestador de TypeScript (apunta a los demás)
+├── tsconfig.app.json     ← config de TS para el código de la app (src/)
+├── tsconfig.node.json    ← config de TS para archivos de configuración
+└── package.json          ← dependencias y scripts del proyecto
+
+
+---------------------------------------------------------------
+  COMANDOS DE USO DIARIO
+---------------------------------------------------------------
+
+  pnpm dev          → levantar servidor de desarrollo (http://localhost:5173)
+  pnpm build        → compilar para producción (genera carpeta dist/)
+  pnpm preview      → previsualizar el build de producción localmente
+  pnpm add X        → instalar nueva dependencia
+  pnpm add -D X     → instalar dependencia de desarrollo
+
+
+---------------------------------------------------------------
+  VERSIONES FINALES INSTALADAS
+---------------------------------------------------------------
+
+  vue               3.5.39
+  tailwindcss       4.3.2
+  @tailwindcss/vite 4.3.2
+  vite              8.1.0
+  typescript        6.0.3
+  vue-tsc           3.3.5
+  pnpm              11.9.0
+  node              22.18.0 (o la versión que hayas instalado)
+
+
+===============================================================
+  PRÓXIMO PASO: construir los componentes del portafolio
+===============================================================
+
+Componentes a crear en src/components/:
+  TheNavbar.vue       → navegación fija superior
+  HeroSection.vue     → nombre, foto, título profesional
+  TechStack.vue       → logos/nombres de tecnologías
+  ContactSection.vue  → invitación a contacto + datos
+  StatsSection.vue    → banda oscura con números de impacto
+
+Convención de nombres:
+  - "The" al inicio → componente único, aparece una sola vez en la app
+  - Sin "The"       → componente reutilizable (puede aparecer varias veces)
+===============================================================

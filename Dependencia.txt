@@ -1,0 +1,223 @@
+===============================================================
+  DEPENDENCIAS INSTALADAS — portfolio-mlopez
+  Registro completo de paquetes y configuraciones
+===============================================================
+
+
+---------------------------------------------------------------
+  DEPENDENCIAS DE PRODUCCIÓN (dependencies)
+  Se instalan con: pnpm add [paquete]
+  Van al bundle final que ve el usuario
+---------------------------------------------------------------
+
+vue@3.5.39
+  → El framework principal. Maneja la UI con componentes .vue,
+    reactividad (ref, computed) y el sistema de templates.
+
+tailwindcss@4.3.2
+  → Motor de clases utilitarias CSS. Genera solo las clases
+    que realmente usás en el código (tree-shaking automático).
+
+@tailwindcss/vite@4.3.2
+  → Plugin que conecta Tailwind con Vite. En v4 ya no se
+    necesita postcss ni autoprefixer por separado.
+
+lucide-vue-next  (pendiente de instalar — pnpm add lucide-vue-next)
+  → Librería de íconos SVG para Vue 3. Usamos íconos para
+    las redes sociales en el hero (LinkedIn, GitHub, Instagram,
+    WhatsApp, Mail).
+
+
+---------------------------------------------------------------
+  DEPENDENCIAS DE DESARROLLO (devDependencies)
+  Se instalan con: pnpm add -D [paquete]
+  Solo se usan en desarrollo, NO van al bundle final
+---------------------------------------------------------------
+
+vite@8.1.0
+  → El bundler/servidor de desarrollo. Procesa los archivos
+    .vue, .ts, .css y sirve la app en http://localhost:5173
+    durante el desarrollo. En producción genera la carpeta dist/.
+
+@vitejs/plugin-vue@6.0.7
+  → Plugin de Vite que entiende archivos .vue (Single File
+    Components). Sin esto, Vite no sabría procesar los bloques
+    <template>, <script> y <style> de cada componente.
+
+typescript@6.0.3
+  → El compilador de TypeScript. Chequea tipos en el código
+    antes de que llegue al navegador. Ayuda a detectar errores
+    en tiempo de desarrollo, no en producción.
+
+vue-tsc@3.3.5
+  → Versión de TypeScript que entiende archivos .vue.
+    TypeScript nativo no sabe qué es un .vue — vue-tsc
+    agrega esa capacidad. Se usa en el comando de build:
+    "vue-tsc -b && vite build"
+
+@vue/tsconfig@0.9.1
+  → Configuración base de TypeScript recomendada para
+    proyectos Vue. El tsconfig.app.json la extiende con
+    "extends": "@vue/tsconfig/tsconfig.dom.json"
+
+@tsconfig/node24@24.0.4
+  → Configuración base de TypeScript para el entorno Node
+    (archivos de config como vite.config.ts). Lo usa
+    tsconfig.node.json.
+
+@types/node@24.13.2
+  → Tipos de TypeScript para las APIs de Node.js
+    (como 'node:url' que usamos en vite.config.ts para
+    el alias @).
+
+vite-plugin-vue-devtools@8.1.4
+  → Plugin que agrega las Vue DevTools al navegador durante
+    el desarrollo. Permite inspeccionar componentes, estado
+    reactivo, eventos, etc. No afecta producción.
+
+npm-run-all2@9.0.2
+  → Utilidad para correr múltiples scripts de npm/pnpm
+    en paralelo o en secuencia. Lo usa internamente el
+    scaffolding de create-vue.
+
+
+---------------------------------------------------------------
+  HERRAMIENTAS GLOBALES DEL SISTEMA
+  Se instalan con: npm install -g [paquete] o nvm
+  No son dependencias del proyecto, son herramientas del SO
+---------------------------------------------------------------
+
+pnpm@11.9.0
+  → Package manager alternativo a npm con verificación de
+    supply chain. Instalado globalmente con:
+    npm install -g pnpm (como administrador en Windows)
+  → IMPORTANTE: se reinstala en cada versión nueva de Node
+    que activés con nvm.
+
+node@22.18.0 (via nvm-windows)
+  → Runtime de JavaScript/TypeScript del lado del servidor.
+    Necesario para correr Vite, pnpm y todas las herramientas
+    de desarrollo.
+  → Actualizado desde v22.14.0 → v22.18.0 para cumplir con
+    el requisito mínimo de create-vue.
+
+nvm-windows
+  → Node Version Manager para Windows. Permite tener múltiples
+    versiones de Node instaladas y cambiar entre ellas con:
+    nvm use [versión]
+
+
+---------------------------------------------------------------
+  ARCHIVOS DE CONFIGURACIÓN CREADOS/MODIFICADOS
+---------------------------------------------------------------
+
+vite.config.ts
+  → Agregado: import tailwindcss from '@tailwindcss/vite'
+  → Agregado: tailwindcss() en el array de plugins
+  → Ya venía: alias @ → src/, plugin-vue, vite-plugin-vue-devtools
+
+src/style.css
+  → Reemplazado todo por: @import "tailwindcss";
+  → En Tailwind v4 esta sola línea reemplaza las 3 directivas
+    de v3 (@tailwind base/components/utilities)
+
+src/main.ts
+  → Corregido: import './style.css' (sin "from", sin variable)
+  → Error común: import style from './style.css' no funciona
+    porque intenta importar CSS como módulo JS
+
+tsconfig.app.json
+  → Agregado: "baseUrl": "." y "paths": {"@/*": ["./src/*"]}
+  → Necesario para que TypeScript resuelva el alias @
+    (Vite lo resuelve solo, pero vue-tsc también necesita saberlo)
+
+
+---------------------------------------------------------------
+  COMANDOS DE USO DIARIO
+---------------------------------------------------------------
+
+pnpm dev          → servidor de desarrollo (http://localhost:5173)
+pnpm build        → compilar para producción → genera dist/
+pnpm preview      → previsualizar build de producción localmente
+pnpm add X        → instalar dependencia de producción
+pnpm add -D X     → instalar dependencia de desarrollo
+pnpm install      → instalar todas las dependencias del package.json
+
+
+---------------------------------------------------------------
+  SCRIPTS DEFINIDOS EN PACKAGE.JSON
+---------------------------------------------------------------
+
+"dev":     "vite"                    → servidor de desarrollo
+"build":   "vue-tsc -b && vite build" → chequea tipos + compila
+"preview": "vite preview"            → previsualiza el build
+
+
+---------------------------------------------------------------
+  COMPONENTES CREADOS HASTA AHORA
+---------------------------------------------------------------
+
+src/components/TheNavbar.vue
+  → Navegación fija superior con responsive (hamburguesa en mobile)
+  → Usa: ref, @click, v-show, clases Tailwind responsive (md:)
+  → Links: Inicio, Tecnologías, Contacto
+  → Botón CTA: "Hablemos →"
+
+src/App.vue
+  → Componente raíz. Importa y usa TheNavbar.
+  → Pendiente: agregar HeroSection, TechStack, ContactSection, StatsSection
+
+
+---------------------------------------------------------------
+  COMPONENTES PENDIENTES DE CREAR
+---------------------------------------------------------------
+
+HeroSection.vue    → nombre, foto, título, redes sociales
+TechStack.vue      → logos de tecnologías usadas
+ContactSection.vue → invitación a contacto + datos
+StatsSection.vue   → banda oscura con números de impacto
+
+
+---------------------------------------------------------------
+  CONVENCIONES DE NOMBRES EN ESTE PROYECTO
+---------------------------------------------------------------
+
+TheX.vue   → componente ÚNICO (aparece una sola vez en la app)
+             Ejemplos: TheNavbar, TheFooter, TheSidebar
+
+X.vue      → componente REUTILIZABLE (puede aparecer N veces)
+             Ejemplos: ProjectCard, TechBadge, SocialLink
+
+
+---------------------------------------------------------------
+  DATOS DEL PORTAFOLIO (contenido real)
+---------------------------------------------------------------
+
+Nombre:       MLopez
+Título:       Full Stack Developer
+Descripción:  Full Stack Developer con experiencia en Vue,
+              TypeScript, .NET y SQL Server. Me especializo
+              en proyectos grandes, liderando equipos y
+              construyendo soluciones que conectan tecnología
+              con las necesidades reales del negocio.
+
+Redes sociales:
+  LinkedIn:   https://www.linkedin.com/in/marcos-antonio-lopez-561a69221/
+  Instagram:  https://www.instagram.com/vibraniumcode/
+  GitHub:     github.com/vibraniumCode (confirmar URL exacta)
+  WhatsApp:   1154251100
+  Email:      vibraniumcode@gmail.com
+
+Tech Stack a mostrar:
+  Vue · TypeScript · Tailwind · SQL Server · Angular
+  C# · .NET · Azure DevOps · Node.js · Vite · MongoDB
+
+===============================================================
+  PRÓXIMO PASO
+===============================================================
+
+1. pnpm add lucide-vue-next   → íconos para redes sociales
+2. Crear src/components/HeroSection.vue
+3. Agregar la foto (src/assets/foto-marcos.png)
+
+===============================================================
