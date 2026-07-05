@@ -26,7 +26,6 @@ const experiencias = [
       "Automatización de procesos con Talend Open Studio y SQL Server",
       "Desarrollo y mantenimiento de aplicaciones web en Angular, TypeScript, Tailwind, .NET y SQL Server",
       "Integración con API SSN: generación y envío de información regulatoria de cartera",
-      "Integración de síntesis de voz con ElevenLabs en app web Vue.js + TypeScript + MongoDB",
     ],
   },
   {

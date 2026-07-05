@@ -88,9 +88,9 @@ const redes = [
             :key="red.url"
             :href="red.url"
             target="_blank"
-            class="w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-lime-500 transition-colors"
+            class="w-9 h-9 bg-gray-500 rounded-full flex items-center justify-center shadow-md hover:bg-lime-500 transition-colors"
           >
-            <component :is="red.icon" class="w-4 h-4 text-gray-700" />
+            <component :is="red.icon" class="w-4 h-4 text-white" />
           </a>
         </div>
       </div>
@@ -99,12 +99,24 @@ const redes = [
       <div
         class="flex flex-col gap-6 order-3 items-center md:items-start text-center md:text-left"
       >
-        <div class="border border-gray-200 p-4 rounded-xl w-full">
-          <p class="text-xs text-gray-400 uppercase tracking-widest mb-1">
-            Empresa
+        <div
+          class="border border-gray-200 p-4 rounded-xl w-full flex flex-col gap-3"
+        >
+          <p class="text-xs text-gray-400 uppercase tracking-widest">
+            Empresas
           </p>
-          <p class="text-sm font-semibold text-black">VibraniumCode</p>
-          <p class="text-xs text-gray-400">Fundador & Dev Lead</p>
+
+          <div class="flex flex-col gap-1">
+            <p class="text-sm font-semibold text-black">CNP Seguros</p>
+            <p class="text-xs text-gray-400">Analista IT · 5 años</p>
+          </div>
+
+          <div class="w-full h-px bg-gray-100"></div>
+
+          <div class="flex flex-col gap-1">
+            <p class="text-sm font-semibold text-black">VibraniumCode</p>
+            <p class="text-xs text-gray-400">Fundador & Dev Lead</p>
+          </div>
         </div>
 
         <div>

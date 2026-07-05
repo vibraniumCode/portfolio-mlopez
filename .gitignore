@@ -39,7 +39,5 @@ __screenshots__/
 *.timestamp-*-*.mjs
 
 
-Dependencia.txt
-note.txt
-setup-portfolio-mlopez.txt
-.vscode
+# Notas personales
+*.txt

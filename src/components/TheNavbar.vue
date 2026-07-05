@@ -28,7 +28,7 @@ const toggleMenu = () => {
     <ul class="hidden md:flex gap-8 list-none">
       <li>
         <a
-          href="#inicio"
+          href="#hero"
           class="text-sm text-gray-500 hover:text-black transition-colors"
           >Inicio</a
         >
@@ -38,6 +38,20 @@ const toggleMenu = () => {
           href="#tech-stack"
           class="text-sm text-gray-500 hover:text-black transition-colors"
           >Tecnologías</a
+        >
+      </li>
+      <li>
+        <a
+          href="#proyectos"
+          class="text-sm text-gray-500 hover:text-black transition-colors"
+          >Proyectos</a
+        >
+      </li>
+      <li>
+        <a
+          href="#experiencia"
+          class="text-sm text-gray-500 hover:text-black transition-colors"
+          >Experiencia</a
         >
       </li>
       <li>
@@ -64,11 +78,45 @@ const toggleMenu = () => {
 
   <!-- Menu mobile desplegable -->
   <!--v-show="menuAbierto" → muestra el menú desplegable solo cuando menuAbierto es true-->
-  <div v-show="menuAbierto" class="fixed top-16 left-0 w-full bg-white border-b
-  border-gray-200 z-40 flex flex-col px-8 py-6 gap-6 md:hidden">
-    <a href="#inicio" class="text-sm text-gray-700 hover:text-black transition-colors" @click="toggleMenu">Inicio</a>
-    <a href="#tech-stack" class="text-sm text-gray-700 hover:text-black transition-colors" @click="toggleMenu">Tecnología</a>
-    <a href="#contact" class="text-sm text-gray-700 hover:text-black transition-colors" @click="toggleMenu">Contacto</a>
-    <a href="#contact" class="bg-black text-white text-sm px-5 py-3 text-center hover:bg-lime-500 hover:text-black transition-colors" @click="toggleMenu">Hablemos →</a>
+  <div
+    v-show="menuAbierto"
+    class="fixed top-16 left-0 w-full bg-white border-b border-gray-200 z-40 flex flex-col px-8 py-6 gap-6 md:hidden"
+  >
+    <a
+      href="#hero"
+      class="text-sm text-gray-700 hover:text-black transition-colors"
+      @click="toggleMenu"
+      >Inicio</a
+    >
+    <a
+      href="#tech-stack"
+      class="text-sm text-gray-700 hover:text-black transition-colors"
+      @click="toggleMenu"
+      >Tecnología</a
+    >
+    <a
+      href="#proyectos"
+      class="text-sm text-gray-700 hover:text-black transition-colors"
+      @click="toggleMenu"
+      >Proyectos</a
+    >
+    <a
+      href="#experiencia"
+      class="text-sm text-gray-700 hover:text-black transition-colors"
+      @click="toggleMenu"
+      >Experiencia</a
+    >
+    <a
+      href="#contact"
+      class="text-sm text-gray-700 hover:text-black transition-colors"
+      @click="toggleMenu"
+      >Contacto</a
+    >
+    <a
+      href="#contact"
+      class="bg-black text-white text-sm px-5 py-3 text-center hover:bg-lime-500 hover:text-black transition-colors"
+      @click="toggleMenu"
+      >Hablemos →</a
+    >
   </div>
 </template>
